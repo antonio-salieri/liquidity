@@ -6,7 +6,6 @@ info:
 paths:
   /liquidity/pools:
     post:
-      deprecated: true
       summary: Submit create liquidity pool message.
       description: >-
         unsigned tx can be generated upon request through this POST endpoint,
@@ -352,11 +351,6 @@ paths:
                           example: '1'
                           title: id of the pool
                         pool_coin_total_supply:
-                          format: sdk.Coin
-                          example:
-                            denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
-                            amount: '1000000'
-                          title: pool coin issued at the pool
                           type: object
                           properties:
                             denom:
@@ -372,6 +366,11 @@ paths:
                             the custom method
 
                             signatures required by gogoproto.
+                          format: sdk.Coin
+                          example:
+                            denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
+                            amount: '1000000'
+                          title: pool coin issued at the pool
                         reserve_coins:
                           type: array
                           format: sdk.Coins
@@ -556,7 +555,6 @@ paths:
         url: 'https://github.com/tendermint/liquidity/blob/develop/doc/client.md'
   '/liquidity/pools/{pool_id}/batch/deposits':
     post:
-      deprecated: true
       summary: Submit deposit to the liquidity pool batch
       description: >-
         unsigned tx can be generated upon request through this POST endpoint,
@@ -1084,7 +1082,6 @@ paths:
         url: 'https://github.com/tendermint/liquidity/blob/develop/doc/client.md'
   '/liquidity/pools/{pool_id}/batch/swaps':
     post:
-      deprecated: true
       summary: Submit swap to the liquidity pool batch
       description: >-
         unsigned tx can be generated upon request through this POST endpoint,
@@ -1355,19 +1352,24 @@ paths:
                       id of swap type type, only 1 is allowed on this version,
                       Must match the value in the pool.
                   offer_coin:
-                    format: sdk.Coin
-                    example:
-                      denom: denomA
-                      amount: '1000000'
-                    description: >-
-                      offer sdk.coin for the swap request, Must match the denom
-                      in the pool.
                     type: object
                     properties:
                       denom:
                         type: string
                       amount:
                         type: string
+                    description: >-
+                      Coin defines a coin with a denomination and an amount.
+
+
+                      NOTE: The amount field is an Int which implements the
+                      custom method
+
+                      signatures required by gogoproto.
+                    format: sdk.Coin
+                    example:
+                      denom: denomA
+                      amount: '1000000'
                   demand_coin_denom:
                     type: string
                     example: denomB
@@ -1464,11 +1466,26 @@ paths:
                         swap orders are cancelled when current height is equal
                         or higher than ExpiryHeight
                     exchanged_offer_coin:
+                      type: object
+                      properties:
+                        denom:
+                          type: string
+                        amount:
+                          type: string
+                      description: >-
+                        Coin defines a coin with a denomination and an amount.
+
+
+                        NOTE: The amount field is an Int which implements the
+                        custom method
+
+                        signatures required by gogoproto.
                       format: sdk.Coin
                       example:
                         denom: denomA
                         amount: '600000'
                       title: offer coin exchanged until now
+                    remaining_offer_coin:
                       type: object
                       properties:
                         denom:
@@ -1483,26 +1500,11 @@ paths:
                         custom method
 
                         signatures required by gogoproto.
-                    remaining_offer_coin:
                       format: sdk.Coin
                       example:
                         denom: denomA
                         amount: '400000'
                       title: offer coin currently remaining to be exchanged
-                      type: object
-                      properties:
-                        denom:
-                          type: string
-                        amount:
-                          type: string
-                      description: >-
-                        Coin defines a coin with a denomination and an amount.
-
-
-                        NOTE: The amount field is an Int which implements the
-                        custom method
-
-                        signatures required by gogoproto.
                     msg:
                       title: MsgSwap
                       type: object
@@ -1533,19 +1535,25 @@ paths:
                             id of swap type type, only 1 is allowed on this
                             version, Must match the value in the pool.
                         offer_coin:
-                          format: sdk.Coin
-                          example:
-                            denom: denomA
-                            amount: '1000000'
-                          description: >-
-                            offer sdk.coin for the swap request, Must match the
-                            denom in the pool.
                           type: object
                           properties:
                             denom:
                               type: string
                             amount:
                               type: string
+                          description: >-
+                            Coin defines a coin with a denomination and an
+                            amount.
+
+
+                            NOTE: The amount field is an Int which implements
+                            the custom method
+
+                            signatures required by gogoproto.
+                          format: sdk.Coin
+                          example:
+                            denom: denomA
+                            amount: '1000000'
                         demand_coin_denom:
                           type: string
                           example: denomB
@@ -1708,7 +1716,6 @@ paths:
         url: 'https://github.com/tendermint/liquidity/blob/develop/doc/client.md'
   '/liquidity/pools/{pool_id}/batch/withdraws':
     post:
-      deprecated: true
       summary: Submit withdraw from to the liquidity pool batch
       description: >-
         unsigned tx can be generated upon request through this POST endpoint,
@@ -1966,10 +1973,6 @@ paths:
                     example: '1'
                     title: id of the target pool
                   pool_coin:
-                    format: sdk.Coin
-                    example:
-                      denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
-                      amount: '1000'
                     type: object
                     properties:
                       denom:
@@ -1984,6 +1987,10 @@ paths:
                       custom method
 
                       signatures required by gogoproto.
+                    format: sdk.Coin
+                    example:
+                      denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
+                      amount: '1000'
                 description: >-
                   `MsgWithdrawFromLiquidityPool` defines an `sdk.Msg` type that
                   supports submitting withdraw request to the batch of the
@@ -2068,10 +2075,6 @@ paths:
                           example: '1'
                           title: id of the target pool
                         pool_coin:
-                          format: sdk.Coin
-                          example:
-                            denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
-                            amount: '1000'
                           type: object
                           properties:
                             denom:
@@ -2087,6 +2090,10 @@ paths:
                             the custom method
 
                             signatures required by gogoproto.
+                          format: sdk.Coin
+                          example:
+                            denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
+                            amount: '1000'
                       description: >-
                         `MsgWithdrawFromLiquidityPool` defines an `sdk.Msg` type
                         that supports submitting withdraw request to the batch
@@ -2587,11 +2594,6 @@ paths:
                     example: '1'
                     title: id of the pool
                   pool_coin_total_supply:
-                    format: sdk.Coin
-                    example:
-                      denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
-                      amount: '1000000'
-                    title: pool coin issued at the pool
                     type: object
                     properties:
                       denom:
@@ -2606,6 +2608,11 @@ paths:
                       custom method
 
                       signatures required by gogoproto.
+                    format: sdk.Coin
+                    example:
+                      denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
+                      amount: '1000000'
+                    title: pool coin issued at the pool
                   reserve_coins:
                     type: array
                     format: sdk.Coins
@@ -3591,17 +3598,21 @@ definitions:
           id of swap type type, only 1 is allowed on this version, Must match
           the value in the pool.
       offer_coin:
-        format: sdk.Coin
-        example:
-          denom: denomA
-          amount: '1000000'
-        description: 'offer sdk.coin for the swap request, Must match the denom in the pool.'
         type: object
         properties:
           denom:
             type: string
           amount:
             type: string
+        description: |-
+          Coin defines a coin with a denomination and an amount.
+
+          NOTE: The amount field is an Int which implements the custom method
+          signatures required by gogoproto.
+        format: sdk.Coin
+        example:
+          denom: denomA
+          amount: '1000000'
       demand_coin_denom:
         type: string
         example: denomB
@@ -3772,19 +3783,24 @@ definitions:
               id of swap type type, only 1 is allowed on this version, Must
               match the value in the pool.
           offer_coin:
-            format: sdk.Coin
-            example:
-              denom: denomA
-              amount: '1000000'
-            description: >-
-              offer sdk.coin for the swap request, Must match the denom in the
-              pool.
             type: object
             properties:
               denom:
                 type: string
               amount:
                 type: string
+            description: >-
+              Coin defines a coin with a denomination and an amount.
+
+
+              NOTE: The amount field is an Int which implements the custom
+              method
+
+              signatures required by gogoproto.
+            format: sdk.Coin
+            example:
+              denom: denomA
+              amount: '1000000'
           demand_coin_denom:
             type: string
             example: denomB
@@ -3914,10 +3930,6 @@ definitions:
         example: '1'
         title: id of the target pool
       pool_coin:
-        format: sdk.Coin
-        example:
-          denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
-          amount: '1000'
         type: object
         properties:
           denom:
@@ -3929,6 +3941,10 @@ definitions:
 
           NOTE: The amount field is an Int which implements the custom method
           signatures required by gogoproto.
+        format: sdk.Coin
+        example:
+          denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
+          amount: '1000'
     description: >-
       `MsgWithdrawFromLiquidityPool` defines an `sdk.Msg` type that supports
       submitting withdraw request to the batch of the liquidity pool
@@ -4064,10 +4080,6 @@ definitions:
             example: '1'
             title: id of the target pool
           pool_coin:
-            format: sdk.Coin
-            example:
-              denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
-              amount: '1000'
             type: object
             properties:
               denom:
@@ -4082,6 +4094,10 @@ definitions:
               method
 
               signatures required by gogoproto.
+            format: sdk.Coin
+            example:
+              denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
+              amount: '1000'
         description: >-
           `MsgWithdrawFromLiquidityPool` defines an `sdk.Msg` type that supports
           submitting withdraw request to the batch of the liquidity pool
@@ -4482,11 +4498,23 @@ definitions:
           swap orders are cancelled when current height is equal or higher than
           ExpiryHeight
       exchanged_offer_coin:
+        type: object
+        properties:
+          denom:
+            type: string
+          amount:
+            type: string
+        description: |-
+          Coin defines a coin with a denomination and an amount.
+
+          NOTE: The amount field is an Int which implements the custom method
+          signatures required by gogoproto.
         format: sdk.Coin
         example:
           denom: denomA
           amount: '600000'
         title: offer coin exchanged until now
+      remaining_offer_coin:
         type: object
         properties:
           denom:
@@ -4498,23 +4526,11 @@ definitions:
 
           NOTE: The amount field is an Int which implements the custom method
           signatures required by gogoproto.
-      remaining_offer_coin:
         format: sdk.Coin
         example:
           denom: denomA
           amount: '400000'
         title: offer coin currently remaining to be exchanged
-        type: object
-        properties:
-          denom:
-            type: string
-          amount:
-            type: string
-        description: |-
-          Coin defines a coin with a denomination and an amount.
-
-          NOTE: The amount field is an Int which implements the custom method
-          signatures required by gogoproto.
       msg:
         title: MsgSwap
         type: object
@@ -4545,19 +4561,24 @@ definitions:
               id of swap type type, only 1 is allowed on this version, Must
               match the value in the pool.
           offer_coin:
-            format: sdk.Coin
-            example:
-              denom: denomA
-              amount: '1000000'
-            description: >-
-              offer sdk.coin for the swap request, Must match the denom in the
-              pool.
             type: object
             properties:
               denom:
                 type: string
               amount:
                 type: string
+            description: >-
+              Coin defines a coin with a denomination and an amount.
+
+
+              NOTE: The amount field is an Int which implements the custom
+              method
+
+              signatures required by gogoproto.
+            format: sdk.Coin
+            example:
+              denom: denomA
+              amount: '1000000'
           demand_coin_denom:
             type: string
             example: denomB
@@ -4635,10 +4656,6 @@ definitions:
             example: '1'
             title: id of the target pool
           pool_coin:
-            format: sdk.Coin
-            example:
-              denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
-              amount: '1000'
             type: object
             properties:
               denom:
@@ -4653,6 +4670,10 @@ definitions:
               method
 
               signatures required by gogoproto.
+            format: sdk.Coin
+            example:
+              denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
+              amount: '1000'
         description: >-
           `MsgWithdrawFromLiquidityPool` defines an `sdk.Msg` type that supports
           submitting withdraw request to the batch of the liquidity pool
@@ -4744,11 +4765,6 @@ definitions:
         example: '1'
         title: id of the pool
       pool_coin_total_supply:
-        format: sdk.Coin
-        example:
-          denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
-          amount: '1000000'
-        title: pool coin issued at the pool
         type: object
         properties:
           denom:
@@ -4760,6 +4776,11 @@ definitions:
 
           NOTE: The amount field is an Int which implements the custom method
           signatures required by gogoproto.
+        format: sdk.Coin
+        example:
+          denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
+          amount: '1000000'
+        title: pool coin issued at the pool
       reserve_coins:
         type: array
         format: sdk.Coins
@@ -4966,11 +4987,6 @@ definitions:
             example: '1'
             title: id of the pool
           pool_coin_total_supply:
-            format: sdk.Coin
-            example:
-              denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
-              amount: '1000000'
-            title: pool coin issued at the pool
             type: object
             properties:
               denom:
@@ -4985,6 +5001,11 @@ definitions:
               method
 
               signatures required by gogoproto.
+            format: sdk.Coin
+            example:
+              denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
+              amount: '1000000'
+            title: pool coin issued at the pool
           reserve_coins:
             type: array
             format: sdk.Coins
@@ -5175,11 +5196,6 @@ definitions:
                   example: '1'
                   title: id of the pool
                 pool_coin_total_supply:
-                  format: sdk.Coin
-                  example:
-                    denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
-                    amount: '1000000'
-                  title: pool coin issued at the pool
                   type: object
                   properties:
                     denom:
@@ -5194,6 +5210,11 @@ definitions:
                     method
 
                     signatures required by gogoproto.
+                  format: sdk.Coin
+                  example:
+                    denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
+                    amount: '1000000'
+                  title: pool coin issued at the pool
                 reserve_coins:
                   type: array
                   format: sdk.Coins
@@ -5527,11 +5548,26 @@ definitions:
                 swap orders are cancelled when current height is equal or higher
                 than ExpiryHeight
             exchanged_offer_coin:
+              type: object
+              properties:
+                denom:
+                  type: string
+                amount:
+                  type: string
+              description: >-
+                Coin defines a coin with a denomination and an amount.
+
+
+                NOTE: The amount field is an Int which implements the custom
+                method
+
+                signatures required by gogoproto.
               format: sdk.Coin
               example:
                 denom: denomA
                 amount: '600000'
               title: offer coin exchanged until now
+            remaining_offer_coin:
               type: object
               properties:
                 denom:
@@ -5546,26 +5582,11 @@ definitions:
                 method
 
                 signatures required by gogoproto.
-            remaining_offer_coin:
               format: sdk.Coin
               example:
                 denom: denomA
                 amount: '400000'
               title: offer coin currently remaining to be exchanged
-              type: object
-              properties:
-                denom:
-                  type: string
-                amount:
-                  type: string
-              description: >-
-                Coin defines a coin with a denomination and an amount.
-
-
-                NOTE: The amount field is an Int which implements the custom
-                method
-
-                signatures required by gogoproto.
             msg:
               title: MsgSwap
               type: object
@@ -5596,19 +5617,24 @@ definitions:
                     id of swap type type, only 1 is allowed on this version,
                     Must match the value in the pool.
                 offer_coin:
-                  format: sdk.Coin
-                  example:
-                    denom: denomA
-                    amount: '1000000'
-                  description: >-
-                    offer sdk.coin for the swap request, Must match the denom in
-                    the pool.
                   type: object
                   properties:
                     denom:
                       type: string
                     amount:
                       type: string
+                  description: >-
+                    Coin defines a coin with a denomination and an amount.
+
+
+                    NOTE: The amount field is an Int which implements the custom
+                    method
+
+                    signatures required by gogoproto.
+                  format: sdk.Coin
+                  example:
+                    denom: denomA
+                    amount: '1000000'
                 demand_coin_denom:
                   type: string
                   example: denomB
@@ -5721,10 +5747,6 @@ definitions:
                   example: '1'
                   title: id of the target pool
                 pool_coin:
-                  format: sdk.Coin
-                  example:
-                    denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
-                    amount: '1000'
                   type: object
                   properties:
                     denom:
@@ -5739,6 +5761,10 @@ definitions:
                     method
 
                     signatures required by gogoproto.
+                  format: sdk.Coin
+                  example:
+                    denom: cosmos1qz38nymksetqd2d4qesrxpffzywuel82a4l0vs
+                    amount: '1000'
               description: >-
                 `MsgWithdrawFromLiquidityPool` defines an `sdk.Msg` type that
                 supports submitting withdraw request to the batch of the
